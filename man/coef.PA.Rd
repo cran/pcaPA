@@ -19,7 +19,7 @@
   An object of class \code{"matrix"} with the observed eigenvalues and the percentiles.
 }
 
-\author{Carlos A. Arias \email{carias@icfes.gov.co} and Víctor H. Cervantes \email{vcervantes@icfes.gov.co}}
+\author{Carlos A. Arias \email{carias@icfes.gov.co} and Victor H. Cervantes \email{vcervantes@icfes.gov.co}}
 
 \seealso{\code{\link{PA}}, \code{\link{print.PA}}, \code{\link{Check.PA}}, \code{\link{CountEigen.PA}}, \code{\link{plot.PA}}, \code{\link{quantile.PA}}}
 

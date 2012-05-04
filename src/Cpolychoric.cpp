@@ -77,6 +77,7 @@ void simulatedMulti(int, int, int, int, double *, gsl_rng *, int *, int *);
 void eigenvalues(double *, int, double *);
 void vecplus (int *, int);
 void sum (int *, int, int *);
+void tabulate(int *, int *, int *, int *);
 
 
 /* Main Function */
@@ -216,7 +217,7 @@ extern "C" SEXP Cpolychoric(SEXP Rdata, SEXP isBinary, SEXP nReplicates, SEXP ne
       puni=&uni;
       unique(pvec,n,puni);
       /*  This function increases the value of all categories in one, to avoid
-       *  conflict with function R_tabulate */
+       *  conflict with function tabulate */
       vecplus(pvec, n);
       /*  Calculate the average of each category, taken as probabilities of 
        *  occurrence */
@@ -309,7 +310,7 @@ void sum (int *pfreqs, int cross, int *ptotalfreqs) {
 
 
 /*  This function increments in one the value of all the categories found in 
- *  vec, this is to avoid conflicts with R_tabulate, which only
+ *  vec, this is to avoid conflicts with tabulate, which only
  *  counts categories different to 0 */
 
 void vecplus (int *pvec, int n) {
@@ -362,7 +363,7 @@ void probabilities(int *pvec, int n, int uni, double *pprobs) {
   pmax=&max;
   *pmax=0; 
   max_array(pvec,pn,pmax);
-  R_tabulate(pvec,pn,pmax,pfreqs);
+  tabulate(pvec,pn,pmax,pfreqs);
   for (int i = 0; i < uni; i++) {
     double temp = pfreqs[i];
     pprobs[i] = temp / n;
@@ -481,7 +482,7 @@ void correlation(int *pRdata, int *pvec1, int *pvec2, int cols,
         double *pcc = cc;
      
         /*  Calculate the frequencies of the categories found in combi */
-        R_tabulate(pcombi,pn,pmax,pfreqs);
+        tabulate(pcombi,pn,pmax,pfreqs);
 
         free(combi);
 
@@ -850,3 +851,16 @@ double Brent_fmin(double ax, double bx,
     }
     return x;
 }
+
+/* Function to tabulate data taken from the former R_tabulate C++
+ * function in the R source */
+
+void tabulate(int *pvec, int *pn, int *pmax, int *pfreqs)
+{
+    int i;
+    if(*pn < 1) return;
+    for(i = 0 ; i < *pn ; i++)
+	if(pvec[i] != R_NaInt && pvec[i] > 0 && pvec[i] <= *pmax)
+	    pfreqs[pvec[i] - 1]++;
+}
+

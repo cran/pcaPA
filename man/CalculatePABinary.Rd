@@ -28,7 +28,7 @@ CalculatePABinary(dataMatrix, percentiles = 0.99,nReplicates = 200,
   \item{simulatedEigenValues}{\code{data.frame} containing the simulated eigenvalues under independence.}
 }
 
-\author{Carlos A. Arias \email{carias@icfes.gov.co} and Víctor H. Cervantes \email{vcervantes@icfes.gov.co}}
+\author{Carlos A. Arias \email{carias@icfes.gov.co} and Victor H. Cervantes \email{vcervantes@icfes.gov.co}}
 
 \note{This is an auxiliary function for the \code{"PA"} function.}
 
