@@ -17,9 +17,8 @@ CalculatePAOrdered <- function (dataMatrix, percentiles = 0.99, nReplicates = 20
   # #  percentiles: data.frame containing the estimated percentiles of the eigenvalues distribution under independence
   # #  simulatedEigenValues: data.frame containing the simulated eigenvalues under independence
 
-  require(polycor)
-  require(mc2d)
-  
+
+
   ################################################################################
   # # Data verification
   ################################################################################
@@ -33,12 +32,12 @@ CalculatePAOrdered <- function (dataMatrix, percentiles = 0.99, nReplicates = 20
   isOrderedData <- all(sapply(dataMatrix, is.ordered))
   if (!isOrderedData) {
     stop("All variables in dataMatrix must be ordered factors")
-  } 
+  }
 
   if (!(algorithm %in% c("polycor", "polychoric"))) {
     stop("Unknown algorithm")
-  } 
-  
+  }
+
   ################################################################################
   # # Data information
   ################################################################################
@@ -46,31 +45,31 @@ CalculatePAOrdered <- function (dataMatrix, percentiles = 0.99, nReplicates = 20
   nVariables     <- ncol(dataMatrix)
 
   if (algorithm == "polycor") {
-    datCorrelation <- hetcor(dataMatrix, pd = TRUE, use = use) # Polychoric 
-                        # correlations with matrix transformed to the nearest 
+    datCorrelation <- hetcor(dataMatrix, pd = TRUE, use = use) # Polychoric
+                        # correlations with matrix transformed to the nearest
                         # positive definite matrix
     datEigenValues <- eigen(datCorrelation)$values
-  
-    
+
+
   }
   if (algorithm == "polychoric") {
     isBinary = FALSE
     if (use == "complete.obs") {
       dataMatrix <- na.omit(dataMatrix)
-    } 
+    }
 
     dataMatrixInt <- as.matrix(as.data.frame.list(lapply(dataMatrix,
-                                                    function(x) 
+                                                    function(x)
                                                       as.integer(as.integer(x)-1))))
-    
-    result <- .Call(Cpolychoric, dataMatrixInt, isBinary, 
+
+    result <- .Call(Cpolychoric, dataMatrixInt, isBinary,
                     nReplicates, nearcor, new.env())
     datEigenValues <- sort(result[[1]], decreasing = TRUE)
   }
 
   observed <- data.frame(orderEigenValues = 1:nVariables,
                          typeEigenValues  = "Observed",
-                         eigenValues      = datEigenValues, 
+                         eigenValues      = datEigenValues,
                          stringsAsFactors = TRUE)
 
   ################################################################################
@@ -86,14 +85,14 @@ CalculatePAOrdered <- function (dataMatrix, percentiles = 0.99, nReplicates = 20
     for (ii in 1:nReplicates) {
       for (jj in 1:nVariables) {
         probVariable         <- prop.table(table(dataMatrix[, jj]))
-        simulatedMultinomial <- rmultinom(n = nObservations, size = 1, 
+        simulatedMultinomial <- rmultinom(n = nObservations, size = 1,
                                           prob = probVariable)
         simVector            <- ordered(row(simulatedMultinomial)
                                           [simulatedMultinomial == 1])
         simulatedData[, jj]  <- simVector
       }
 
-      simulatedEigenValues[ii, ] <- eigen(hetcor(simulatedData, pd = TRUE, 
+      simulatedEigenValues[ii, ] <- eigen(hetcor(simulatedData, pd = TRUE,
                                                  use = use))$values
     }
     simulatedEigenValues <- data.frame(simulatedEigenValues)
@@ -108,12 +107,12 @@ CalculatePAOrdered <- function (dataMatrix, percentiles = 0.99, nReplicates = 20
     rownames(simulatedEigenValues) <- paste("iter", 1:nReplicates, sep = "")
     colnames(simulatedEigenValues) <- 1:nVariables
   }
-  
+
   ################################################################################
   # # Obtain percentiles of simulated data
   ################################################################################
   estimatedPercentiles <- sapply(simulatedEigenValues, quantile, percentiles)
-  
+
   if (length(percentiles) == 1) {
     estimatedPercentiles <- data.frame(orderEigenValues = 1:nVariables,
                                        typeEigenValues  = 100 * percentiles,

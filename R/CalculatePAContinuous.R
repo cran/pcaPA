@@ -16,7 +16,8 @@ CalculatePAContinuous <- function (dataMatrix, percentiles = 0.99, nReplicates =
   # #   observed: data.frame containing the observed eigenvalues
   # #   percentiles: data.frame containing the estimated percentiles of the eigenvalues distribution under independence
   # #   simulatedEigenValues: data.frame containing the simulated eigenvalues under independence
-  
+
+
   ################################################################################
   # # Data verification
   ################################################################################
@@ -30,12 +31,12 @@ CalculatePAContinuous <- function (dataMatrix, percentiles = 0.99, nReplicates =
   isNumericData <- all(sapply(dataMatrix, is.numeric))
   if (!isNumericData) {
     stop("All variables in dataMatrix must be numeric")
-  } 
+  }
 
   if (algorithm != "pearson") {
     warning("Only Pearson correlations are used for continuous data.")
-  } 
-  
+  }
+
   ################################################################################
   # # Data information
   ################################################################################
@@ -43,7 +44,7 @@ CalculatePAContinuous <- function (dataMatrix, percentiles = 0.99, nReplicates =
   nVariables     <- ncol(dataMatrix)
   datCorrelation <- cor(dataMatrix, use = use)
   datEigenValues <- eigen(datCorrelation)$values
-  
+
   observed <- data.frame(orderEigenValues = 1:nVariables,
                          typeEigenValues  = "Observed",
                          eigenValues      = datEigenValues,
@@ -63,12 +64,12 @@ CalculatePAContinuous <- function (dataMatrix, percentiles = 0.99, nReplicates =
     simulatedEigenValues[ii, ] <- eigen(cor(simulatedData, use = use))$values
   }
   simulatedEigenValues <- data.frame(simulatedEigenValues)
-  
+
   ################################################################################
   # # Obtain percentiles of simulated data
   ################################################################################
   estimatedPercentiles <- sapply(simulatedEigenValues, quantile, percentiles)
-  
+
   if (length(percentiles) == 1) {
     estimatedPercentiles <- data.frame(orderEigenValues = 1:nVariables,
                                        typeEigenValues  = 100 * percentiles,

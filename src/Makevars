@@ -1,2 +1,2 @@
-PKG_LIBS=-L/usr/lib/gsl -L/opt/local/lib -lgsl -lgslcblas -lm
-PKG_CPPFLAGS=-I/usr/include/gsl -I/opt/local/include
+PKG_CPPFLAGS = `gsl-config --cflags`
+PKG_LIBS = `gsl-config --libs`

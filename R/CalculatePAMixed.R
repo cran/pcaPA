@@ -9,7 +9,7 @@ CalculatePAMixed <- function (dataMatrix, percentiles = 0.99, nReplicates = 200,
   # #  percentiles: vector of percentiles to report
   # #  nReplicates: number of simulations to produce for estimating the eigenvalues distribution under independence
   # #  algorithm: string specifying the correlation estimation algorithm. Should be "polycor" for mixed type data
-  
+
   # #
   # # Ret:
   # #  parallelList: a list with data.frames observed, percentiles and simulated data.
@@ -17,9 +17,8 @@ CalculatePAMixed <- function (dataMatrix, percentiles = 0.99, nReplicates = 200,
   # #   percentiles: data.frame containing the estimated percentiles of the eigenvalues distribution under independence
   # #   simulatedEigenValues: data.frame containing the simulated eigenvalues under independence
 
-  require(polycor)
-  require(mc2d)
-  
+
+
   ################################################################################
   # # Data verification
   ################################################################################
@@ -33,11 +32,11 @@ CalculatePAMixed <- function (dataMatrix, percentiles = 0.99, nReplicates = 200,
   isNominalData <- sapply(dataMatrix, is.numeric) || sapply(dataMatrix, is.ordered)
   if (!isNominalData) {
     stop("All variables in dataMatrix must be either numeric or ordered factors")
-  } 
+  }
 
   if (algorithm != "polycor") {
     stop("For mixed data algorithm must be 'polycor'")
-  } 
+  }
 
   ################################################################################
   # # Data information
@@ -47,7 +46,7 @@ CalculatePAMixed <- function (dataMatrix, percentiles = 0.99, nReplicates = 200,
   datCorrelation <- hetcor(dataMatrix, pd = TRUE, use = use) # Heterogeneous correlations (Pearson, Polychoric or Polyserial)
                                                   # with matrix transformed to the nearest positive definite matrix
   datEigenValues <- eigen(datCorrelation)$values
-  
+
   observed <- data.frame(orderEigenValues = 1:nVariables,
                          typeEigenValues  = "Observed",
                          eigenValues      = datEigenValues,
@@ -82,12 +81,12 @@ CalculatePAMixed <- function (dataMatrix, percentiles = 0.99, nReplicates = 200,
     simulatedEigenValues[ii, ] <- eigen(hetcor(simulatedData, pd = TRUE, use = use))$values
   }
   simulatedEigenValues <- data.frame(simulatedEigenValues)
-  
+
   ################################################################################
   # # Obtain percentiles of simulated data
   ################################################################################
   estimatedPercentiles <- sapply(simulatedEigenValues, quantile, percentiles)
-  
+
   if (length(percentiles) == 1) {
     estimatedPercentiles <- data.frame(orderEigenValues = 1:nVariables,
                                        typeEigenValues = 100 * percentiles,

@@ -1,4 +1,4 @@
-# last modified 18 Mar 12 by Victor H Cervantes
+# last modified 20 Dic 13 by Carlos A Arias
 
 useDynLib(pcaPA, Cpolychoric)
 
@@ -26,3 +26,5 @@ import(
  ggplot2,
  mc2d
 )
+
+
