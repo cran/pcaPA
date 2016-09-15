@@ -1,4 +1,4 @@
-60725ec3181c08af3e3ae6377b93adbd *DESCRIPTION
+aec39960378a4f4067842045d0816235 *DESCRIPTION
 d00250e55426b69932dedced57a9d739 *NAMESPACE
 3eb17bf2c13f85ce6f9c46a4c857d58e *R/CalculatePABinary.R
 547d7d098304a1ffb3d7aea7b58d7967 *R/CalculatePAContinuous.R
@@ -29,6 +29,6 @@ e6110260841286eacf7483b258ea8889 *man/mixedScience.Rd
 b96d6a6ca0038a5d9d1daa6123fe2e67 *man/quantile.PA.Rd
 d2634df7c11f736f312962b6cba2d175 *man/sim2plData.Rd
 0e394734e4898d2db8137a640395bc06 *man/simRaschData.Rd
-dadc2f67042ff27cb58e362c827a9307 *src/Cpolychoric.cpp
+0962685b62283ce1ec2c909e60b4a248 *src/Cpolychoric.cpp
 d3ee97dfa5e66ef15b79a6a0a8a066db *src/Makevars
 35675fa816a1e0cb95e9240c27d1fc71 *src/Makevars.win

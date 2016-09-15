@@ -16,6 +16,11 @@
 #include <ctime>
 #include <sys/types.h>
 #include <unistd.h>
+#  ifdef __SUNPRO_CC
+using std::FILE;
+#  endif
+#  include <climits>
+#  include <cstddef>
 
 /* This definition is to prevent R headers to use C headers that might 
  * cause conflict with the ones of C++ */
