@@ -63,7 +63,7 @@ CalculatePAOrdered <- function (dataMatrix, percentiles = 0.99, nReplicates = 20
                                                       as.integer(as.integer(x)-1))))
 
     result <- .Call(Cpolychoric, dataMatrixInt, isBinary,
-                    nReplicates, nearcor, new.env())
+                    nReplicates, sfsmisc::nearcor, new.env())
     datEigenValues <- sort(result[[1]], decreasing = TRUE)
   }
 

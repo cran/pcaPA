@@ -24,7 +24,8 @@ import(
  ltm,
  stats,
  ggplot2,
- mc2d
+ mc2d,
+ sfsmisc
 )
 
 
