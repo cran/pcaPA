@@ -22,13 +22,6 @@ using std::FILE;
 #  include <climits>
 #  include <cstddef>
 
-/* This definition is to prevent R headers to use C headers that might 
- * cause conflict with the ones of C++ */
-
-#ifndef NO_C_HEADERS
-#define NO_C_HEADERS
-#endif
-
 /* R headers */
 
 #include <R.h>
